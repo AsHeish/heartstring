@@ -1,5 +1,5 @@
 import { createContext, useContext, ReactNode } from 'react';
-import { ValentineData } from '../services/valentineService';
+import type { ValentineData } from '../services/valentineService';
 
 interface ValentineContextType {
     data: ValentineData | null;
