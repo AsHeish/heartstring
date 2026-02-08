@@ -65,10 +65,53 @@ export const CreatePage = () => {
         }
     };
 
-    const handleSubmit = async () => {
+    const handlePaymentAndSubmit = async () => {
         setIsSubmitting(true);
         setError(null);
 
+        // Calculate a small fee (e.g., ₹1 for testing, or ₹99 for real)
+        // 100 paise = 1 Rupee
+        const AMOUNT_IN_PAISE = 100;
+
+        // Initialize Payment
+        if (!window.Razorpay) {
+            setError('Payment gateway failed to load. Please refresh and try again.');
+            setIsSubmitting(false);
+            return;
+        }
+
+        const options = {
+            key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+            amount: AMOUNT_IN_PAISE,
+            currency: "INR",
+            name: "Heartstring Valentine",
+            description: "Create your special valentine page",
+            image: "/vite.svg", // Using default vite logo for now
+            handler: async function (response: any) {
+                // Payment Success! Now save to Firestore
+                console.log("Payment successful:", response);
+                await saveToFirestore(response.razorpay_payment_id);
+            },
+            prefill: {
+                name: formData.hisName,
+                email: "", // Optional: collect email in form if needed
+                contact: "" // Optional
+            },
+            theme: {
+                color: "#ff4081"
+            },
+            modal: {
+                ondismiss: function () {
+                    setIsSubmitting(false);
+                }
+            }
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+    };
+
+    const saveToFirestore = async (paymentId: string) => {
         try {
             const valentineId = generateValentineId(
                 formData.hisName,
@@ -96,6 +139,8 @@ export const CreatePage = () => {
                 photos: uploadedPhotos,
                 reasons: formData.reasons.filter(r => r.trim()),
                 loveMessage: formData.loveMessage,
+                // store payment info if needed
+                // paymentId: paymentId 
             });
 
             // Generate link
@@ -103,7 +148,7 @@ export const CreatePage = () => {
             setGeneratedLink(link);
         } catch (err) {
             console.error('Error creating valentine:', err);
-            setError('Something went wrong. Please try again.');
+            setError('Payment successful, but saving failed. Please contact support.');
         } finally {
             setIsSubmitting(false);
         }
@@ -415,10 +460,10 @@ export const CreatePage = () => {
                     ) : (
                         <button
                             className="nav-btn submit-btn"
-                            onClick={handleSubmit}
+                            onClick={handlePaymentAndSubmit}
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? 'Creating... 💕' : 'Create Valentine! 🎉'}
+                            {isSubmitting ? 'Processing Payment... 💸' : 'Pay ₹1 & Create! 💖'}
                         </button>
                     )}
                 </div>
