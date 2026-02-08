@@ -1,0 +1,76 @@
+.journey-scene {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #2d1b3d 0%, #1a0a10 100%);
+    padding: 2rem;
+    text-align: center;
+}
+
+.journey-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    color: #f8bbd9;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+}
+
+.date-reveal {
+    margin-bottom: 2rem;
+}
+
+.start-date {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 7vw, 3.5rem);
+    color: #ff4081;
+    text-shadow: 0 0 30px rgba(255, 64, 129, 0.5);
+}
+
+.days-counter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.days-number {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 15vw, 8rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, #ff4081, #f8bbd9, #ff4081);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+    line-height: 1;
+}
+
+.days-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    color: #f8bbd9;
+    opacity: 0.8;
+}
+
+.milestone-hearts {
+    display: flex;
+    gap: 1rem;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.continue-button {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    background: linear-gradient(135deg, #e91e63 0%, #ff4081 100%);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(233, 30, 99, 0.4);
+}

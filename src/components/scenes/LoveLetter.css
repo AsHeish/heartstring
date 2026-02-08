@@ -1,0 +1,86 @@
+.love-letter-scene {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #2d1b3d 0%, #1a0a10 100%);
+    padding: 2rem;
+}
+
+.letter-container {
+    background: linear-gradient(135deg, #fff9f0 0%, #fff5f5 100%);
+    border-radius: 10px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.letter-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #ff4081, #e91e63, #ff4081);
+}
+
+.letter-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.letter-heart {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.letter-header h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    color: #e91e63;
+    margin: 0;
+}
+
+.letter-content {
+    font-family: 'Playfair Display', serif;
+    color: #333;
+    line-height: 1.8;
+}
+
+.letter-greeting {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: #e91e63;
+    margin-bottom: 1rem;
+}
+
+.letter-body {
+    font-size: 1.1rem;
+    white-space: pre-line;
+    min-height: 200px;
+}
+
+.letter-signature {
+    text-align: right;
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.continue-button {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    background: linear-gradient(135deg, #e91e63 0%, #ff4081 100%);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(233, 30, 99, 0.4);
+}

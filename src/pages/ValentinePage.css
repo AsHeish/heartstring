@@ -1,0 +1,53 @@
+.valentine-page {
+    min-height: 100vh;
+    position: relative;
+}
+
+.valentine-page.loading,
+.valentine-page.not-found {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #2d1b3d 0%, #1a0a10 100%);
+}
+
+.loading-content,
+.not-found-content {
+    text-align: center;
+    z-index: 10;
+}
+
+.loading-heart {
+    font-size: 4rem;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.loading-content p,
+.not-found-content p {
+    color: #f8bbd9;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 1rem;
+}
+
+.not-found-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.not-found-content h1 {
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}

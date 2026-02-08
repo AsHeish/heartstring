@@ -1,0 +1,45 @@
+.proposal-scene {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #2d1b3d 0%, #1a0a10 100%);
+    padding: 2rem;
+    text-align: center;
+}
+
+.proposal-hearts {
+    display: flex;
+    gap: 1rem;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.proposal-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    color: #f8bbd9;
+    margin-bottom: 1rem;
+    font-weight: 400;
+}
+
+.proposal-question {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    color: white;
+    margin-bottom: 3rem;
+    text-shadow: 0 0 30px rgba(255, 64, 129, 0.5);
+}
+
+.proposal-buttons {
+    width: 100%;
+    max-width: 500px;
+}
+
+.proposal-hint {
+    margin-top: 2rem;
+    font-family: 'Poppins', sans-serif;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+}

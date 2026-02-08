@@ -1,0 +1,10 @@
+.typewriter-text {
+    display: inline;
+    white-space: pre-wrap;
+}
+
+.typewriter-cursor {
+    color: #ff4081;
+    font-weight: bold;
+    margin-left: 2px;
+}

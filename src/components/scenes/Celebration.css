@@ -1,0 +1,78 @@
+.celebration-scene {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #3d1b2d 0%, #1a0a10 100%);
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.celebration-content {
+    z-index: 10;
+}
+
+.celebration-hearts {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.celebration-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 10vw, 6rem);
+    color: white;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 30px rgba(255, 64, 129, 0.8);
+}
+
+.celebration-subtitle {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    color: #f8bbd9;
+    font-weight: 400;
+    margin-bottom: 2rem;
+}
+
+.celebration-message {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    color: white;
+    margin-bottom: 2rem;
+}
+
+.celebration-love {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem 3rem;
+    border: 1px solid rgba(255, 64, 129, 0.3);
+}
+
+.celebration-love p {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.forever {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #f8bbd9;
+    font-style: italic;
+}
+
+.floating-emojis {
+    position: absolute;
+    bottom: 10%;
+    left: 0;
+    right: 0;
+}
+
+.floating-emoji {
+    position: absolute;
+    font-size: 2rem;
+}

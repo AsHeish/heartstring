@@ -1,0 +1,91 @@
+.reasons-scene {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #2d1b3d 0%, #1a0a10 100%);
+    padding: 2rem;
+}
+
+.reasons-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    color: #f8bbd9;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+.reason-number {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    color: #ff4081;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 20px rgba(255, 64, 129, 0.5);
+}
+
+.reason-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.reason-content {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    color: white;
+    line-height: 1.6;
+}
+
+.reason-quote {
+    color: #ff4081;
+    font-size: 2em;
+    line-height: 0;
+    vertical-align: middle;
+    opacity: 0.5;
+}
+
+.reason-hearts {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+}
+
+.reasons-progress {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.progress-dot.filled {
+    background: #ff4081;
+}
+
+.next-reason-button,
+.continue-button {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    background: linear-gradient(135deg, #e91e63 0%, #ff4081 100%);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(233, 30, 99, 0.4);
+}

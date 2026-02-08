@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #1a0a10;
+  color: #fff;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.valentine-app {
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(255, 64, 129, 0.5);
+  color: #fff;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a0a10;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #e91e63, #ff4081);
+  border-radius: 4px;
+}
+
+/* Animations */
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 64, 129, 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(255, 64, 129, 0.8);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+/* Prevent text selection on UI elements */
+button,
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Focus styles for accessibility */
+button:focus-visible {
+  outline: 2px solid #ff4081;
+  outline-offset: 2px;
+}

@@ -1,0 +1,46 @@
+.tease-button-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 120px;
+    width: 100%;
+}
+
+.yes-button {
+    padding: 1rem 3rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #e91e63 0%, #ff4081 100%);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 10;
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.2s ease;
+}
+
+.yes-button:hover {
+    background: linear-gradient(135deg, #ff4081 0%, #e91e63 100%);
+}
+
+.no-button {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    color: #666;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    cursor: pointer;
+    position: absolute;
+    right: 30%;
+    font-family: 'Poppins', sans-serif;
+    backdrop-filter: blur(5px);
+    transition: background 0.2s ease;
+}
+
+.no-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
