@@ -13,7 +13,7 @@ import { LoveLetter } from '../components/scenes/LoveLetter';
 import { FinalProposal } from '../components/scenes/FinalProposal';
 import { Celebration } from '../components/scenes/Celebration';
 import { ValentineProvider } from '../context/ValentineContext';
-import { getValentineData, verifyBirthdate, ValentineData } from '../services/valentineService';
+import { getValentineData, verifyBirthdate, type ValentineData } from '../services/valentineService';
 import './ValentinePage.css';
 
 type Scene =
