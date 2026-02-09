@@ -7,33 +7,8 @@ interface ImportMetaEnv {
     readonly VITE_FIREBASE_STORAGE_BUCKET: string;
     readonly VITE_FIREBASE_MESSAGING_SENDER_ID: string;
     readonly VITE_FIREBASE_APP_ID: string;
-    readonly VITE_RAZORPAY_KEY_ID: string;
 }
 
 interface ImportMeta {
     readonly env: ImportMetaEnv;
-}
-
-interface RazorpayOptions {
-    key: string;
-    amount: number;
-    currency: string;
-    name: string;
-    description: string;
-    image?: string;
-    handler: (response: any) => void;
-    prefill?: {
-        name?: string;
-        email?: string;
-        contact?: string;
-    };
-    theme?: {
-        color?: string;
-    };
-}
-
-interface Window {
-    Razorpay: new (options: RazorpayOptions) => {
-        open: () => void;
-    };
 }
