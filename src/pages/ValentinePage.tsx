@@ -144,7 +144,7 @@ export const ValentinePage = () => {
                 {currentScene !== 'verification' && (
                     <>
                         <FloatingHearts count={20} color="#ff4081" />
-                        <MusicControl audioUrl="/audio/romantic.mp3" />
+                        <MusicControl audioUrl={valentineData?.backgroundMusicUrl || '/audio/romantic.mp3'} />
                     </>
                 )}
 

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import './TeaseButton.css';
 
 interface TeaseButtonProps {
@@ -14,7 +14,7 @@ export const TeaseButton = ({
     noText = "No"
 }: TeaseButtonProps) => {
     const noButtonRef = useRef<HTMLButtonElement>(null);
-    const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
+    const [noPosition, setNoPosition] = useState<{ x: number; y: number } | null>(null);
     const [escapeCount, setEscapeCount] = useState(0);
     const [noButtonText, setNoButtonText] = useState(noText);
 
@@ -31,18 +31,25 @@ export const TeaseButton = ({
         "🏃‍♂️💨",
     ];
 
-    const handleNoHover = () => {
-        // Calculate random new position
-        const maxX = window.innerWidth - 150;
-        const maxY = window.innerHeight - 100;
+    const escapeButton = useCallback(() => {
+        const button = noButtonRef.current;
+        if (!button) return;
 
-        const newX = Math.random() * maxX - maxX / 2;
-        const newY = Math.random() * maxY - maxY / 2;
+        const buttonRect = button.getBoundingClientRect();
+        const padding = 20;
+
+        // Use the full viewport, keeping the button fully visible
+        const maxX = window.innerWidth - buttonRect.width - padding;
+        const maxY = window.innerHeight - buttonRect.height - padding;
+
+        // Random position anywhere on the viewport
+        const newX = padding + Math.random() * (maxX - padding);
+        const newY = padding + Math.random() * (maxY - padding);
 
         setNoPosition({ x: newX, y: newY });
         setEscapeCount((prev) => prev + 1);
         setNoButtonText(escapeTexts[Math.min(escapeCount, escapeTexts.length - 1)]);
-    };
+    }, [escapeCount, escapeTexts]);
 
     return (
         <div className="tease-button-container">
@@ -71,12 +78,14 @@ export const TeaseButton = ({
 
             <motion.button
                 ref={noButtonRef}
-                className="no-button"
-                onHoverStart={handleNoHover}
-                animate={{
-                    x: noPosition.x,
-                    y: noPosition.y,
-                }}
+                className={`no-button ${noPosition ? 'no-button--escaped' : ''}`}
+                onHoverStart={escapeButton}
+                onTouchStart={escapeButton}
+                animate={
+                    noPosition
+                        ? { left: noPosition.x, top: noPosition.y }
+                        : {}
+                }
                 transition={{
                     type: 'spring',
                     stiffness: 300,

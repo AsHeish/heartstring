@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { saveValentineData, generateValentineId, uploadPhoto } from '../services/valentineService';
+import { saveValentineData, generateValentineId, uploadPhoto, uploadMusic } from '../services/valentineService';
 import { FloatingHearts } from '../components/ui/FloatingHearts';
 import './CreatePage.css';
 
@@ -13,7 +13,15 @@ interface FormData {
     photos: { file: File | null; caption: string; preview: string }[];
     reasons: string[];
     loveMessage: string;
+    selectedSong: 'senorita' | 'kashish' | 'custom';
+    musicFile: File | null;
+    musicFileName: string;
 }
+
+const PRESET_SONGS = [
+    { id: 'senorita' as const, name: 'Señorita', artist: 'Camila Cabello & Shawn Mendes', url: '/audio/romantic.mp3' },
+    { id: 'kashish' as const, name: 'Kashish', artist: '', url: '/audio/Kashish.mp3' },
+];
 
 const initialFormData: FormData = {
     hisName: '',
@@ -24,6 +32,9 @@ const initialFormData: FormData = {
     photos: Array(5).fill({ file: null, caption: '', preview: '' }),
     reasons: ['', '', '', '', ''],
     loveMessage: '',
+    selectedSong: 'senorita',
+    musicFile: null,
+    musicFileName: '',
 };
 
 export const CreatePage = () => {
@@ -33,7 +44,7 @@ export const CreatePage = () => {
     const [generatedLink, setGeneratedLink] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    const totalSteps = 6;
+    const totalSteps = 7;
 
     const updateField = (field: keyof FormData, value: any) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -86,6 +97,17 @@ export const CreatePage = () => {
 
             const uploadedPhotos = await Promise.all(photoPromises);
 
+            // Handle music selection
+            let musicUrl: string | undefined;
+            if (formData.selectedSong === 'custom' && formData.musicFile) {
+                musicUrl = await uploadMusic(formData.musicFile, valentineId);
+            } else {
+                const preset = PRESET_SONGS.find(s => s.id === formData.selectedSong);
+                if (preset) {
+                    musicUrl = preset.url;
+                }
+            }
+
             // Save to Firestore
             await saveValentineData({
                 hisName: formData.hisName,
@@ -96,6 +118,7 @@ export const CreatePage = () => {
                 photos: uploadedPhotos,
                 reasons: formData.reasons.filter(r => r.trim()),
                 loveMessage: formData.loveMessage,
+                backgroundMusicUrl: musicUrl,
             });
 
             // Generate link
@@ -129,6 +152,8 @@ export const CreatePage = () => {
                 return formData.reasons.some(r => r.trim());
             case 5:
                 return formData.loveMessage.trim().length > 20;
+            case 6:
+                return true; // Music is optional
             default:
                 return true;
         }
@@ -362,10 +387,103 @@ export const CreatePage = () => {
                         </motion.div>
                     )}
 
-                    {/* Step 6: Preview & Submit */}
+                    {/* Step 6: Music */}
                     {step === 6 && (
                         <motion.div
                             key="step6"
+                            className="form-step"
+                            initial={{ opacity: 0, x: 50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -50 }}
+                        >
+                            <h2>Choose Background Music 🎵</h2>
+                            <p className="step-description">
+                                Pick a song to play during the experience
+                            </p>
+
+                            <div className="music-selection-section">
+                                {PRESET_SONGS.map((song) => (
+                                    <button
+                                        key={song.id}
+                                        type="button"
+                                        className={`song-option ${formData.selectedSong === song.id ? 'selected' : ''}`}
+                                        onClick={() => {
+                                            updateField('selectedSong', song.id);
+                                            updateField('musicFile', null);
+                                            updateField('musicFileName', '');
+                                        }}
+                                    >
+                                        <span className="song-radio">
+                                            {formData.selectedSong === song.id ? '◉' : '○'}
+                                        </span>
+                                        <span className="song-icon">🎶</span>
+                                        <div className="song-details">
+                                            <span className="song-name">{song.name}</span>
+                                            {song.artist && <span className="song-artist">{song.artist}</span>}
+                                        </div>
+                                    </button>
+                                ))}
+
+                                {/* Custom upload option */}
+                                <button
+                                    type="button"
+                                    className={`song-option ${formData.selectedSong === 'custom' ? 'selected' : ''}`}
+                                    onClick={() => updateField('selectedSong', 'custom')}
+                                >
+                                    <span className="song-radio">
+                                        {formData.selectedSong === 'custom' ? '◉' : '○'}
+                                    </span>
+                                    <span className="song-icon">🎵</span>
+                                    <div className="song-details">
+                                        <span className="song-name">Upload Your Own</span>
+                                        <span className="song-artist">Choose a custom song</span>
+                                    </div>
+                                </button>
+
+                                {formData.selectedSong === 'custom' && (
+                                    <div className="custom-upload-area">
+                                        {formData.musicFile ? (
+                                            <div className="uploaded-music">
+                                                <div className="music-file-info">
+                                                    <span>🎵</span>
+                                                    <span className="music-file-name">{formData.musicFileName}</span>
+                                                </div>
+                                                <button
+                                                    className="remove-music-btn"
+                                                    onClick={() => {
+                                                        updateField('musicFile', null);
+                                                        updateField('musicFileName', '');
+                                                    }}
+                                                >
+                                                    Remove ✕
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <label className="music-upload-label">
+                                                <input
+                                                    type="file"
+                                                    accept="audio/*"
+                                                    onChange={(e) => {
+                                                        const file = e.target.files?.[0];
+                                                        if (file) {
+                                                            updateField('musicFile', file);
+                                                            updateField('musicFileName', file.name);
+                                                        }
+                                                    }}
+                                                />
+                                                <span className="upload-music-btn">📁 Choose an audio file</span>
+                                            </label>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </motion.div>
+                    )}
+
+                    {/* Step 7: Preview & Submit */}
+                    {step === 7 && (
+                        <motion.div
+                            key="step7"
                             className="form-step preview-step"
                             initial={{ opacity: 0, x: 50 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -386,6 +504,11 @@ export const CreatePage = () => {
                                 </div>
                                 <div className="preview-item">
                                     <strong>💗 Reasons:</strong> {formData.reasons.filter(r => r.trim()).length} reasons
+                                </div>
+                                <div className="preview-item">
+                                    <strong>🎵 Music:</strong> {formData.selectedSong === 'custom'
+                                        ? (formData.musicFileName || 'No file selected')
+                                        : PRESET_SONGS.find(s => s.id === formData.selectedSong)?.name || 'Señorita'}
                                 </div>
                                 <div className="preview-item">
                                     <strong>💌 Letter:</strong> {formData.loveMessage.length} characters

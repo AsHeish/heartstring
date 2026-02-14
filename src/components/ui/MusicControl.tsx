@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import './MusicControl.css';
 
@@ -8,22 +8,52 @@ interface MusicControlProps {
 
 export const MusicControl = ({ audioUrl }: MusicControlProps) => {
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const [isPlaying, setIsPlaying] = useState(true);
-    const [hasInteracted, setHasInteracted] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const hasInteractedRef = useRef(false);
 
+    // Create / swap the audio element only when audioUrl changes
     useEffect(() => {
-        if (audioUrl) {
-            audioRef.current = new Audio(audioUrl);
-            audioRef.current.loop = true;
-            audioRef.current.volume = 0.5;
+        if (!audioUrl) return;
+
+        // Pause & discard old audio
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.src = '';
         }
 
-        // Try to play on first user interaction
+        const audio = new Audio(audioUrl);
+        audio.loop = true;
+        audio.volume = 0.5;
+        audioRef.current = audio;
+
+        // If user already interacted, auto-play the new track
+        if (hasInteractedRef.current) {
+            audio.play()
+                .then(() => setIsPlaying(true))
+                .catch(() => setIsPlaying(false));
+        }
+
+        return () => {
+            audio.pause();
+            audio.src = '';
+        };
+    }, [audioUrl]);
+
+    // Listen for the very first user interaction to start playback
+    useEffect(() => {
         const handleFirstInteraction = () => {
-            if (audioRef.current && !hasInteracted) {
-                audioRef.current.play().catch(() => { });
-                setHasInteracted(true);
+            if (hasInteractedRef.current) return;
+            hasInteractedRef.current = true;
+
+            if (audioRef.current) {
+                audioRef.current.play()
+                    .then(() => setIsPlaying(true))
+                    .catch(() => setIsPlaying(false));
             }
+
+            // Remove listeners once triggered
+            document.removeEventListener('click', handleFirstInteraction);
+            document.removeEventListener('touchstart', handleFirstInteraction);
         };
 
         document.addEventListener('click', handleFirstInteraction);
@@ -32,22 +62,21 @@ export const MusicControl = ({ audioUrl }: MusicControlProps) => {
         return () => {
             document.removeEventListener('click', handleFirstInteraction);
             document.removeEventListener('touchstart', handleFirstInteraction);
-            if (audioRef.current) {
-                audioRef.current.pause();
-            }
         };
-    }, [audioUrl, hasInteracted]);
+    }, []);
 
-    const toggleMusic = () => {
+    const toggleMusic = useCallback(() => {
         if (!audioRef.current) return;
 
         if (isPlaying) {
             audioRef.current.pause();
+            setIsPlaying(false);
         } else {
-            audioRef.current.play();
+            audioRef.current.play()
+                .then(() => setIsPlaying(true))
+                .catch(() => { });
         }
-        setIsPlaying(!isPlaying);
-    };
+    }, [isPlaying]);
 
     if (!audioUrl) return null;
 

@@ -27,6 +27,7 @@ export interface ValentineData {
     photos: Photo[];
     reasons: string[];
     loveMessage: string;
+    backgroundMusicUrl?: string;
     createdAt: Date;
 }
 
@@ -86,6 +87,18 @@ export const uploadPhoto = async (file: File, valentineId: string, index: number
     const fileExtension = file.name.split('.').pop();
     const fileName = `${valentineId}/photo_${index}.${fileExtension}`;
     const storageRef = ref(storage, `photos/${fileName}`);
+
+    await uploadBytes(storageRef, file);
+    const downloadUrl = await getDownloadURL(storageRef);
+
+    return downloadUrl;
+};
+
+// Upload music to Firebase Storage
+export const uploadMusic = async (file: File, valentineId: string): Promise<string> => {
+    const fileExtension = file.name.split('.').pop();
+    const fileName = `${valentineId}/music.${fileExtension}`;
+    const storageRef = ref(storage, `audio/${fileName}`);
 
     await uploadBytes(storageRef, file);
     const downloadUrl = await getDownloadURL(storageRef);
