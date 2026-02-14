@@ -1,5 +1,5 @@
-import { motion, useMotionValue, useTransform } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useRef, useState } from 'react';
 import './TeaseButton.css';
 
 interface TeaseButtonProps {

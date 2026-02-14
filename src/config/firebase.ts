@@ -14,10 +14,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firestore with settings to avoid CORS/connection issues
-// experimentalForceLongPolling is the key fix for the CORS/Network error you are seeing
+// Initialize Firestore
 export const db = initializeFirestore(app, {
-    experimentalForceLongPolling: true,
     ignoreUndefinedProperties: true,
 });
 
